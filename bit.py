@@ -11,7 +11,7 @@
 #*----------------------------------------------------------------*#
 
 from PyPDF2 import PdfFileReader, PdfFileWriter
-
+from os import remove
 
 # 1. Get PDF file and total no. of pages (n)
 pdf_document = input(("Enter file name : "))
@@ -20,7 +20,7 @@ n = pdf.getNumPages()
 
 
 # 2. Add blank pages such that total pages becomes multiple of 8
-temp_file = "temp.pdf"
+temp_file = "Final.pdf"
 whitepage = n % 8
 temp_writer = PdfFileWriter(pdf_document)
 
@@ -94,3 +94,6 @@ for i in range(n//8):
 
 temp_writer.write(open(temp_file, "wb"))
 print("finalized", temp_file)
+# Cleaning up
+remove(odd_file)
+remove(even_file)
