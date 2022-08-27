@@ -13,11 +13,20 @@
 from PyPDF2 import PdfFileReader, PdfFileWriter
 from os import remove
 
+print("""
+  __  __ _     _   _    _             _
+ |  \/  (_)   | | | |  | |           | |
+ | \  / |_  __| | | |__| |_   _ _ __ | |_ ___ _ __
+ | |\/| | |/ _` | |  __  | | | | '_ \| __/ _ \ '__|
+ | |  | | | (_| | | |  | | |_| | | | | ||  __/ |
+ |_|  |_|_|\__,_| |_|  |_|\__,_|_| |_|\__\___|_|
+                        N-up Duplex page algorithm
+""")
+
 # 1. Get PDF file and total no. of pages (n)
 pdf_document = input(("Enter file name : "))
 pdf = PdfFileReader(pdf_document)
 n = pdf.getNumPages()
-
 
 # 2. Add blank pages such that total pages becomes multiple of 8
 temp_file = "Final.pdf"
@@ -34,10 +43,9 @@ temp_writer.write(open(temp_file, "wb"))
 pdf = PdfFileReader(temp_file)
 n = pdf.getNumPages()
 
-
 # 3. Split pages into odd set and even set
-odd_file = "odd.pdf"
-even_file = "even.pdf"
+odd_file = "69odd69"
+even_file = "69even69"
 odd_set = PdfFileWriter()
 even_set = PdfFileWriter()
 
@@ -56,7 +64,6 @@ with open(even_file, "wb") as out:
 	even_set.write(out)
 	print("created", even_file)
 
-
 # 4. Swap every 2 neighbouring pages with each other in even set
 temp_reader = PdfFileReader(even_file)
 temp_writer = PdfFileWriter()
@@ -72,7 +79,6 @@ for i in range(even_set_size):
 
 temp_writer.write(open(even_file, "wb"))
 print("corrected", even_file)
-
 
 # 5. Append 4 pages from odd and even sets till n
 file1 = PdfFileReader(odd_file)
