@@ -29,8 +29,12 @@ pdf = PdfFileReader(pdf_document)
 n = pdf.getNumPages()
 
 # 2. Add blank pages such that total pages becomes multiple of 8
-temp_file = "Final.pdf"
-whitepage = n % 8
+temp_file = "X_"+pdf_document
+
+if n < 8:
+	whitepage = 8 - n
+else:
+	whitepage = n % 8
 temp_writer = PdfFileWriter(pdf_document)
 
 for i in range(n):
@@ -44,8 +48,8 @@ pdf = PdfFileReader(temp_file)
 n = pdf.getNumPages()
 
 # 3. Split pages into odd set and even set
-odd_file = "69odd69"
-even_file = "69even69"
+odd_file = "69odd69.pdf"
+even_file = "69even69.pdf"
 odd_set = PdfFileWriter()
 even_set = PdfFileWriter()
 
