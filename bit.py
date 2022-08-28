@@ -3,7 +3,8 @@
 #| ---------------------------------------------------------------|#
 #| 1. Get PDF file and total no. of pages (n)                     |#
 #| 2. Add blank pages such that total pages becomes multiple of 8 |#
-#|     2.1 No. of pages to add = n % 8                            |#
+#|     2.1 If (n<8): blank_page = 8 - n                           |#
+#|     2.2 If (n>8): blank_page = n % 8                           |#
 #| 3. Split pages into odd set and even set                       |#
 #| 4. Swap every 2 neighbouring pages with each other in even set |#
 #| 5. Append 4 pages from odd and even sets till n                |#
@@ -30,6 +31,8 @@ n = pdf.getNumPages()
 
 # 2. Add blank pages such that total pages becomes multiple of 8
 temp_file = "X_"+pdf_document
+pageWidth = pdf.getPage(0).mediaBox[2] - pdf.getPage(0).mediaBox[0]
+pageHeight = pdf.getPage(0).mediaBox[3] - pdf.getPage(0).mediaBox[1]
 
 if n < 8:
 	whitepage = 8 - n
@@ -40,7 +43,8 @@ temp_writer = PdfFileWriter(pdf_document)
 for i in range(n):
 	temp_writer.addPage(pdf.getPage(i))
 for i in range(whitepage):
-	temp_writer.addBlankPage(219,297) #A4 size dimensions
+	temp_writer.addBlankPage(pageWidth,pageHeight)
+	# temp_writer.addBlankPage(219,297) #A4 size dimensions
 
 temp_writer.write(open(temp_file, "wb"))
 # updating values
@@ -48,8 +52,8 @@ pdf = PdfFileReader(temp_file)
 n = pdf.getNumPages()
 
 # 3. Split pages into odd set and even set
-odd_file = "69odd69.pdf"
-even_file = "69even69.pdf"
+odd_file = "69odd69"
+even_file = "69even69"
 odd_set = PdfFileWriter()
 even_set = PdfFileWriter()
 
