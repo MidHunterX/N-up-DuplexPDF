@@ -1,18 +1,18 @@
-#*----------------------------------------------------------------*#
-#| Bit Algorithm (N-up Duplex pages)                              |#
-#| ---------------------------------------------------------------|#
-#| 1. Get PDF file and total no. of pages (n)                     |#
-#| 2. Add blank pages such that total pages becomes multiple of 8 |#
-#|     2.1 If (n<8): blank_page = 8 - n                           |#
-#|     2.2 If (n>8): blank_page = n % 8                           |#
-#| 3. Split pages into odd set and even set                       |#
-#| 4. Swap every 2 neighbouring pages with each other in even set |#
-#| 5. Append 4 pages from odd and even sets till n                |#
-#|                                                   - Mid Hunter |#
-#*----------------------------------------------------------------*#
+#*-----------------------------------------------------------------*#
+#| Bit Algorithm (N-up Duplex pages)                               |#
+#| ----------------------------------------------------------------|#
+#| 1. Get PDF file and total no. of pages (n)                      |#
+#| 2. Add blank pages such that total pages becomes multiple of 8  |#
+#|     2.1 blank_page = (nearest ceil multiple of 8) - n           |#
+#| 3. Split pages into odd set and even set                        |#
+#| 4. Swap every 2 neighbouring pages with each other in even set  |#
+#| 5. Append 4 pages from odd and even sets till n                 |#
+#|                                                    - Mid Hunter |#
+#*-----------------------------------------------------------------*#
 
 from PyPDF2 import PdfFileReader, PdfFileWriter
 from os import remove
+from math import ceil
 
 print("""
   __  __ _     _   _    _             _
@@ -34,10 +34,11 @@ temp_file = "X_"+pdf_document
 pageWidth = pdf.getPage(0).mediaBox[2] - pdf.getPage(0).mediaBox[0]
 pageHeight = pdf.getPage(0).mediaBox[3] - pdf.getPage(0).mediaBox[1]
 
-if n < 8:
-	whitepage = 8 - n
-else:
-	whitepage = n % 8
+# Developing a function to round to a multiple
+def round_to_multiple(number, multiple):
+    return multiple * ceil(number / multiple)
+
+whitepage = round_to_multiple(n, 8) - n
 temp_writer = PdfFileWriter(pdf_document)
 
 for i in range(n):
@@ -108,6 +109,7 @@ for i in range(n//8):
 
 temp_writer.write(open(temp_file, "wb"))
 print("finalized", temp_file)
+
 # Cleaning up
 remove(odd_file)
 remove(even_file)
