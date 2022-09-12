@@ -10,6 +10,7 @@
 #|                                                    - Mid Hunter |#
 #*-----------------------------------------------------------------*#
 
+import ntpath
 from PyPDF2 import PdfFileReader, PdfFileWriter
 from os import remove
 from math import ceil
@@ -21,16 +22,19 @@ print("""
  | |\/| | |/ _` | |  __  | | | | '_ \| __/ _ \ '__|
  | |  | | | (_| | | |  | | |_| | | | | ||  __/ |
  |_|  |_|_|\__,_| |_|  |_|\__,_|_| |_|\__\___|_|
-                        N-up Duplex page algorithm
+            Duplex N-up page (imposition) algorithm
 """)
 
 # 1. Get PDF file and total no. of pages (n)
-pdf_document = input(("Enter file name : "))
+pdf_document = input(("Drop file here : "))
+if (pdf_document[0] == "\""):
+	# Remove quotes from the ends of path
+	pdf_document = pdf_document[1:-1]
 pdf = PdfFileReader(pdf_document)
 n = pdf.getNumPages()
 
 # 2. Add blank pages such that total pages becomes multiple of 8
-temp_file = "X_"+pdf_document
+temp_file = "X_"+ntpath.basename(pdf_document)
 pageWidth = pdf.getPage(0).mediaBox[2] - pdf.getPage(0).mediaBox[0]
 pageHeight = pdf.getPage(0).mediaBox[3] - pdf.getPage(0).mediaBox[1]
 
