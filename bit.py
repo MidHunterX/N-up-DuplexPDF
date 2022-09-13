@@ -11,9 +11,12 @@
 #*-----------------------------------------------------------------*#
 
 import ntpath
-from PyPDF2 import PdfFileReader, PdfFileWriter
 from os import remove
 from math import ceil
+try:
+	from PyPDF2 import PdfFileReader, PdfFileWriter
+except ImportError:
+	print("Umm... looks like I need PyPDF2 to access dem files bro.")
 
 print("""
   __  __ _     _   _    _             _
@@ -34,7 +37,8 @@ pdf = PdfFileReader(pdf_document)
 n = pdf.getNumPages()
 
 # 2. Add blank pages such that total pages becomes multiple of 8
-temp_file = "X_"+ntpath.basename(pdf_document)
+temp_file = ntpath.dirname(pdf_document)+"\X_"+ntpath.basename(pdf_document)
+# temp_file = "X_"+ntpath.basename(pdf_document)
 pageWidth = pdf.getPage(0).mediaBox[2] - pdf.getPage(0).mediaBox[0]
 pageHeight = pdf.getPage(0).mediaBox[3] - pdf.getPage(0).mediaBox[1]
 
