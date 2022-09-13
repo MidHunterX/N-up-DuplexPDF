@@ -1,2 +1,2 @@
 # N-up-DuplexPDF
-Creates PDF into N-up layout for duplex pages
+Python script to create PDF into N-up impositions
