@@ -1,2 +1,2 @@
 # N-up-DuplexPDF
-Python script to create PDF into N-up impositions
+Python script to collate PDF for 4-up impositions
